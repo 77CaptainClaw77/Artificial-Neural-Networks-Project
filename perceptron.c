@@ -10,18 +10,20 @@ int binary_activation_function(float n)//Computes f(x) where x is the activation
 }
 float sigmoid_activation(float n)//Non linear activation function
 {
-  return (1/(1-exp(n)));
+  return (1/(1+exp(-n)));
 }
 float weight_change() //Returns the error
 {
-
+  //No Logic Here
+  //Done in run_perceptron loop
+  //Implement your own logic if needed.
 }
 void initialize_weights(float w_arr[],int n)//Initializes the weight vector
 {
   srand(time(NULL));
   int i;
   for(i=0;i<n;i++)
-    w_arr[i]=(rand()%2)-1;//To generate between -1 and 1*/
+    w_arr[i]=(rand()%3)-1;//To generate between -1 and 1*/
 }
 int estimate_value(float i_arr[],float w_arr[],int n)//Computes the value of f(x) based on values of x vector and the weight vector
 {
@@ -50,9 +52,10 @@ void run_perceptron(float inputs[4][2],float targets[4])//Runs the perceptron by
 	  prediction=estimate_value(ip_set,weights,n);
 	  error=targets[i]-prediction;
 	  overall_error+=error;
-	  weight_change[i][0]=error*inputs[i][0]*LEARNING_RATE;
+	  //Learning process next
+	  weight_change[i][0]=error*inputs[i][0]*LEARNING_RATE;//Perceptron Learning Law
 	  weight_change[i][1]=error*inputs[i][1]*LEARNING_RATE;
-	  weights[0]+=weight_change[i][0];
+	  weights[0]+=weight_change[i][0];//Weight change equation
 	  weights[1]+=weight_change[i][1];
 	}
       overall_error/=4;
