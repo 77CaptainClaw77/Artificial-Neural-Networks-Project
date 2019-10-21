@@ -5,9 +5,10 @@
 #define CONVERGENCE_LIMIT 100 //To stop training if weight change diverges beyond limit
 #define LEARNING_RATE 0.5 //Learning Rate Parameter for Perceptron Learning Law
 #define MAX_ITERATIONS 100000 //Maximum number of iterations allowed to prevent infinite loop 
+float threshold=0.0;
 int binary_activation_function(float n)//Computes f(x) where x is the activation value.
 {
-  return (n>=0?1:0);
+  return (n>=threshold?1:0);
 }
 float sigmoid_activation(float n)//Non linear activation function
 {
@@ -117,6 +118,14 @@ int main()
       for(j=0;j<m;j++)
 	scanf("%f",&inputs[i][j]);
       scanf("%f",&targets[i]);
+    }
+  char ch;
+  printf("Enter \'y\' if NOR gate inputs are entered else press any other key :");
+  scanf("%*c%c",&ch);
+  if(ch!='y')
+    {
+      printf("Enter the threshold value:");
+      scanf("%f",&threshold);
     }
   run_perceptron(inputs,targets,4,2);
   return 0;
