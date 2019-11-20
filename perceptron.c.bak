@@ -6,11 +6,6 @@
 #define LEARNING_RATE 0.5 //Learning Rate Parameter for Perceptron Learning Law
 #define MAX_ITERATIONS 100000 //Maximum number of iterations allowed to prevent infinite loop 
 float threshold=0.0;
-void swap(int* a,int* b){
-  int temp=*a;
-  *a=*b;
-  *b=temp;
-}
 int binary_activation_function(float n)//Computes f(x) where x is the activation value.
 {
   return (n>=threshold?1:0);
@@ -40,7 +35,7 @@ int estimate_value(float i_arr[],float w_arr[],int n)//Computes the value of f(x
 void run_perceptron(float** inputs,float* targets,int no_of_inputs,int input_size)//Runs the perceptron by initializing weights and estimating values
 {
   int n=input_size;
-  float weights[n];
+  float weights[2];
   initialize_weights(weights,n);
   float prediction=0.0,error=0.0,overall_error=0.0,initial_weight_change=0.0;
   int i=0,j=0;
@@ -97,19 +92,12 @@ void run_perceptron(float** inputs,float* targets,int no_of_inputs,int input_siz
 	  break;
 	}
     }
-  printf("\n");
-  for(j=0;j<n;j++)
-    printf("Weight %d: %f\t",j+1,weights[j]);
-  for(i=0;i<no_of_inputs;i++)
+  printf("\nWeight 1: %f\tWeights 2: %f",weights[0],weights[1]);
+  for(i=0;i<4;i++)
     {
-      float ip_set[n];
-      for(j=0;j<n;j++)
-	ip_set[i]=inputs[i][j];
-      prediction=estimate_value(ip_set,weights,n);
-      printf("\n");
-      for(j=0;j<n;j++)
-	printf("%f ",inputs[i][j]);
-      printf(" -> %f",prediction);
+       float ip_set[2]={inputs[i][0],inputs[i][1]};
+       prediction=estimate_value(ip_set,weights,n);
+       printf("\n %f %f -> %f",inputs[i][0],inputs[i][1],prediction);
     }
 }
 int main()
@@ -134,32 +122,11 @@ int main()
   char ch;
   printf("Enter \'y\' if NOR gate inputs are entered else press any other key :");
   scanf("%*c%c",&ch);
-  /*printf("Enter the test train split ratio:");
-  int test_size;
-  float ratio;
-  scanf("%d",&ratio);
-  test_size=(int)(ratio*n);
-   int **test_set=malloc(sizeof(int)*test_size);
-  int **training_set=malloc(sizeof(int)*(n-test_size));
-  for(i=0;i<n;i++){
-    srand(time(NULL));
-    int swap_ind=rand()%n;
-    for(j=0;j<m;j++)
-      swap(&inputs[i][j],&inputs[swap_ind][j]);
-  }
-  for(i=0;i<test_size;i++){
-    for(j=0;j<m;j++)
-      training_set[i][j]=input[i][j];
-  }
-  for(i=test_size;i<n;i++){
-    for(j=0;j<m;j++)
-      test_set[i][j]=input[i][j];
-      }*/
   if(ch!='y')
     {
       printf("Enter the threshold value:");
       scanf("%f",&threshold);
     }
-  run_perceptron(inputs,targets,n,m);
+  run_perceptron(inputs,targets,4,2);
   return 0;
 }
